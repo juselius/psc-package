@@ -35,7 +35,7 @@ import           System.Environment (getArgs)
 import qualified System.IO as IO
 import qualified System.Process as Process
 import qualified Text.ParserCombinators.ReadP as Read
-import           Turtle hiding (echo, fold, s, x)
+import           Turtle hiding (fold, s, x, nub)
 import qualified Turtle
 import           Types (PackageName, mkPackageName, runPackageName, untitledPackageName, preludePackageName)
 
@@ -431,7 +431,7 @@ verify inputName = case mkPackageName (pack inputName) of
     pkg <- readPackageFile
     db <- readPackageSet pkg
     case name `Map.lookup` db of
-      Nothing -> echoT . pack $ "No packages found with the name " <> show (runPackageName $ name)
+      Nothing -> echoT . pack $ "No packages found with the name " <> show (runPackageName name)
       Just _ -> do
         reverseDeps <- map fst <$> getReverseDeps db name
         let packages = pure name <> reverseDeps
